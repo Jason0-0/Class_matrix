@@ -46,9 +46,10 @@ private:
 	//int CalRule();
 
 	//用于进行初等变换的函数
-	double* operator()(const int row);
+	double* operator()(const int row);			//重载（）以访问行
 	void Add(double* pDst, double* pSrc);
 	void Minus(double* pDst, double* pSrc);
+	void ValMuti(double* pSrc, double Val);
 	void MutiAdd(double* pDst,double* pSrc , double Val);
 	void MutiMinus(double* pDst, double* pSrc, double Val);
 	//交换行

@@ -98,6 +98,14 @@ void matrix4x4::MutiMinus(double* pDst, double* pSrc, double Val)
 	}
 }
 
+void matrix4x4::ValMuti(double* pSrc, double Val)
+{
+	for (int i = 0; i < MATRIX_LEN; i++)
+	{
+		pSrc[i] *= Val;
+	}
+}
+
 
 
 //×ªÖÃ
