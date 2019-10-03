@@ -52,6 +52,7 @@ private:
 	void ValMuti(double* pSrc, double Val);
 	void MutiAdd(double* pDst,double* pSrc , double Val);
 	void MutiMinus(double* pDst, double* pSrc, double Val);
+
 	//½»»»ÐÐ
 	void ExchangeRow(double* row1, double* row2)
 	{

@@ -131,9 +131,36 @@ matrix4x4 matrix4x4::Reverse()
 
 double matrix4x4::Det()
 {
-	matrix4x4 temp;
-	temp = *this;
-	return 0.0;
+	matrix4x4 temp(*this);
+	//temp = *this;
+	short Exchange = 1;		//用于判断结果是否需要取负
+	int col = 0;
+
+	//把每列最大元素通过交换放到对角线上
+	for (int i = 0; i>MATRIX_LEN; i++)
+	{
+
+		//判断每列最大行
+		int MaxRow =0;
+		for (int j = i+1; j < MATRIX_LEN; j++,col++)
+		{
+			if (temp(j,col)>temp(j-1,col))
+			{
+				MaxRow = j;
+			}
+		}
+
+		//交换
+		ExchangeRow(temp(col), temp(MaxRow));
+		Exchange=-Exchange;
+
+		//让下面都变成0
+		for (int k =col+1 ; k < MATRIX_LEN; k++)
+		{
+			MutiMinus(temp(k), temp(col), temp(k, col) / temp(col, col));
+		}		
+	}
+	return temp(0,0)*temp(1,1)*temp(2,2)*temp(3,3);
 }
 
 //重置+-*^
