@@ -9,7 +9,7 @@ using namespace std;
 int main()
 {
 	matrix4x4 a,b,c;
-	cin >> a
+	cin >> a;
 	//cout << (a * b) << endl; // 为什么这样子不行？
 	cout << c << endl;
 	c = a^3 ;

@@ -22,18 +22,18 @@ public:
 	matrix4x4(T const mat[][MATRIX_LEN]);
 	matrix4x4 operator+(const matrix4x4& add);
 	matrix4x4 operator-(const matrix4x4& sub);
-	matrix4x4 operator*(const matrix4x4& muti);
-	matrix4x4 operator^(const int pow);
-	matrix4x4 operator=(const matrix4x4& right);
-	double& operator()(const int  row, const int col);
+	matrix4x4 operator*(const matrix4x4& muti);			//已测试
+	matrix4x4 operator^(const int pow);					//已测试
+	matrix4x4 operator=(const matrix4x4& right);		//已测试
+	double& operator()(const int  row, const int col);	//已测试
 	
 	friend istream& operator>> (istream& is, matrix4x4& mt);
 	friend ostream& operator<<(ostream& os, matrix4x4& mt);
 
 	matrix4x4& Trans();
-	matrix4x4 Reverse();	//TODO 还没写呢！
+	matrix4x4 Inverse();	//TODO 还没写呢！
 
-	double Det();			//TODO 同样没写什么
+	double Det();			//TODO need to be debuged
 
 
 	~matrix4x4();

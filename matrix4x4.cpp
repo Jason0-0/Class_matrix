@@ -121,12 +121,42 @@ matrix4x4& matrix4x4::Trans()
 	return *this;
 }
 
-matrix4x4 matrix4x4::Reverse()
+matrix4x4 matrix4x4::Inverse()
 {
-	matrix4x4 temp;
-	temp = *this;
+	matrix4x4 temp(*this);
+	//temp = *this;
+	matrix4x4 eye;		//外挂的增广矩阵
+	
+	for (int i = 0; i < MATRIX_LEN; i++)
+	{
+		int n = i;
+		while (temp(n,n)==0&&n!=MATRIX_LEN-1)
+		{
+			
+			ExchangeRow(temp(n), temp(n + 1));
+			ExchangeRow(eye(n), eye(n + 1));
+			++n;
+		}
+		if (temp(i,i)==0)
+		{
+			rule = 0;
+			return matrix4x4(0);
+		}
 
-	return matrix4x4();
+		ValMuti(eye(i), temp(i, i));
+		ValMuti(temp(i), temp(i, i));
+		
+		for (int j = 0; j < MATRIX_LEN; j++)
+		{
+			if (j != i)
+			{
+				MutiMinus(eye(j), eye(i), temp(j, i));
+				MutiMinus(temp(j), temp(i), temp(j, i));
+			}
+		}
+	}
+	
+	return eye;
 }
 
 double matrix4x4::Det()
@@ -137,7 +167,7 @@ double matrix4x4::Det()
 	int col = 0;
 
 	//把每列最大元素通过交换放到对角线上
-	for (int i = 0; i>MATRIX_LEN; i++)
+	for (int i = 0; i < MATRIX_LEN; i++)
 	{
 
 		//判断每列最大行
@@ -160,7 +190,7 @@ double matrix4x4::Det()
 			MutiMinus(temp(k), temp(col), temp(k, col) / temp(col, col));
 		}		
 	}
-	return temp(0,0)*temp(1,1)*temp(2,2)*temp(3,3);
+	return Exchange*temp(0,0)*temp(1,1)*temp(2,2)*temp(3,3);
 }
 
 //重置+-*^
