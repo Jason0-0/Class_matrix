@@ -10,13 +10,23 @@ int main()
 {
 	matrix4x4 a,b,c;
 	cin >> a;
-	//cout << (a * b) << endl; // 为什么这样子不行？
-	cout << c << endl;
-	c = a^3 ;
+
+	//试一试强转成参数列表的xxx&格式——可以
+	cout << (matrix4x4&)(a + b) << endl; // 参数列表去除&后又报我一个有多个<<重载的错orz
+	//cout << c << endl;
+	//c = a^3 ;
 	/*cout << a(1, 1) << a(3, 2) << endl;
 	cout << a(-2, -2) << endl;*/
-	cout << c << endl;
-	cout << a << endl;
+	//cout << c << endl;
+	//cout << a << endl;
+	cout << endl<<a.Det() << endl;
+	
+	cout << endl << (matrix4x4&)a.Trans() << endl;
+	//matrix4x4 d(0);
+	//d = a.Inverse();
+	//cout << d << endl;
+	cout << endl << (matrix4x4&)a.Inverse() << endl;
+	
 
 	return 0;
 }

@@ -108,17 +108,18 @@ void matrix4x4::ValMuti(double* pSrc, double Val)
 
 
 
-//转置
-matrix4x4& matrix4x4::Trans()
+//转置,不能返回引用的原因是在输出时往往不会拿一个变量去承载它，就会出现类似于野指针的乱码情况
+matrix4x4 matrix4x4::Trans()
 {
+	matrix4x4 temp;
 	for (int i = 0; i < MATRIX_LEN; i++)
 	{
 		for (int j = 0; j < MATRIX_LEN; j++)
 		{
-			matrix[i][j] = matrix[j][i];
+			temp.matrix[i][j] = this->matrix[j][i];
 		}
 	}
-	return *this;
+	return temp;
 }
 
 matrix4x4 matrix4x4::Inverse()
@@ -129,12 +130,12 @@ matrix4x4 matrix4x4::Inverse()
 	
 	for (int i = 0; i < MATRIX_LEN; i++)
 	{
-		int n = i;
-		while (temp(n,n)==0&&n!=MATRIX_LEN-1)
+		int n = i+1;
+		while (temp(i,i)==0&&n!=MATRIX_LEN)
 		{
 			
-			ExchangeRow(temp(n), temp(n + 1));
-			ExchangeRow(eye(n), eye(n + 1));
+			ExchangeRow(temp(i), temp(n));
+			ExchangeRow(eye(i), eye(n));
 			++n;
 		}
 		if (temp(i,i)==0)
@@ -143,8 +144,8 @@ matrix4x4 matrix4x4::Inverse()
 			return matrix4x4(0);
 		}
 
-		ValMuti(eye(i), temp(i, i));
-		ValMuti(temp(i), temp(i, i));
+		ValMuti(eye(i), 1/temp(i, i));
+		ValMuti(temp(i), 1/temp(i, i));
 		
 		for (int j = 0; j < MATRIX_LEN; j++)
 		{
@@ -167,12 +168,12 @@ double matrix4x4::Det()
 	int col = 0;
 
 	//把每列最大元素通过交换放到对角线上
-	for (int i = 0; i < MATRIX_LEN; i++)
+	for (int i = 0; i < MATRIX_LEN; i++,col++)
 	{
 
 		//判断每列最大行
-		int MaxRow =0;
-		for (int j = i+1; j < MATRIX_LEN; j++,col++)
+		int MaxRow =col;
+		for (int j = i+1; j < MATRIX_LEN; j++)
 		{
 			if (temp(j,col)>temp(j-1,col))
 			{
@@ -185,6 +186,11 @@ double matrix4x4::Det()
 		Exchange=-Exchange;
 
 		//让下面都变成0
+		if (temp(col,col)==0)
+		{
+			this->rule = 0;
+			return 0.0;
+		}
 		for (int k =col+1 ; k < MATRIX_LEN; k++)
 		{
 			MutiMinus(temp(k), temp(col), temp(k, col) / temp(col, col));
@@ -201,7 +207,7 @@ matrix4x4 matrix4x4:: operator+(const matrix4x4& add)
 	{
 		for (int j = 0; j < MATRIX_LEN; j++)
 		{
-			temp.matrix[i][j] = +add.matrix[i][j];
+			temp.matrix[i][j] += add.matrix[i][j];
 		}
 	}
 	return temp;
@@ -277,7 +283,7 @@ istream& operator>>(istream& is, matrix4x4& mt)
 	return is;
 }
 
-ostream& operator<<(ostream& os, matrix4x4& mt)
+ostream& operator<<(ostream& os, matrix4x4 &mt)
 {
 	for (int i = 0; i < MATRIX_LEN; i++)
 	{

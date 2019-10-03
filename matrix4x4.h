@@ -20,6 +20,7 @@ public:
 	matrix4x4(int Val); //用于乘法
 	template<typename T>
 	matrix4x4(T const mat[][MATRIX_LEN]);
+
 	matrix4x4 operator+(const matrix4x4& add);
 	matrix4x4 operator-(const matrix4x4& sub);
 	matrix4x4 operator*(const matrix4x4& muti);			//已测试
@@ -27,13 +28,13 @@ public:
 	matrix4x4 operator=(const matrix4x4& right);		//已测试
 	double& operator()(const int  row, const int col);	//已测试
 	
-	friend istream& operator>> (istream& is, matrix4x4& mt);
-	friend ostream& operator<<(ostream& os, matrix4x4& mt);
+	friend istream& operator>> (istream& is, matrix4x4& mt);	//已测试
+	friend ostream& operator<<(ostream& os, matrix4x4& mt);		//已测试
 
-	matrix4x4& Trans();
-	matrix4x4 Inverse();	//TODO 还没写呢！
+	matrix4x4 Trans();		//已测试
+	matrix4x4 Inverse();	//已测试
 
-	double Det();			//TODO need to be debuged
+	double Det();			//已测试
 
 
 	~matrix4x4();
@@ -56,9 +57,13 @@ private:
 	//交换行
 	void ExchangeRow(double* row1, double* row2)
 	{
-		double* temp = row1;
-		row1 = row2;
-		row2 = temp;
+		for (int i = 0; i < MATRIX_LEN; i++)
+		{
+			double temp = row1[i];
+			row1[i] = row2[i];
+			row2[i] = temp;
+		}
+		
 	}
 
 
