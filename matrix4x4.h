@@ -7,7 +7,7 @@
 /*
 TODO： 赋值或计算后还是求逆时才计算秩？
 		二维数组的=重载
-		想清楚两个相同类的赋值到底需不需要重载=
+		重载返回非常变量引用的<<重载
 
 */
 
@@ -30,12 +30,11 @@ public:
 	
 	friend istream& operator>> (istream& is, matrix4x4& mt);	//已测试
 	friend ostream& operator<<(ostream& os, matrix4x4& mt);		//已测试
+	friend ostream& operator<<(ostream&, matrix4x4);		
 
 	matrix4x4 Trans();		//已测试
 	matrix4x4 Inverse();	//已测试
-
 	double Det();			//已测试
-
 
 	~matrix4x4();
 
@@ -44,14 +43,13 @@ private:
 	double ERRORCODE = 0.0;
 	double matrix[MATRIX_LEN][MATRIX_LEN];
 	double rule;	//矩阵的秩
-	//int CalRule();
 
 	//用于进行初等变换的函数
 	double* operator()(const int row);			//重载（）以访问行
-	void Add(double* pDst, double* pSrc);
-	void Minus(double* pDst, double* pSrc);
+	void Add(double* pDst, double* pSrc);		//可弃用
+	void Minus(double* pDst, double* pSrc);		//可弃用
 	void ValMuti(double* pSrc, double Val);
-	void MutiAdd(double* pDst,double* pSrc , double Val);
+	void MutiAdd(double* pDst,double* pSrc , double Val);	//可弃用
 	void MutiMinus(double* pDst, double* pSrc, double Val);
 
 	//交换行
@@ -62,8 +60,7 @@ private:
 			double temp = row1[i];
 			row1[i] = row2[i];
 			row2[i] = temp;
-		}
-		
+		}	
 	}
 
 
@@ -73,7 +70,7 @@ private:
 //输入输出重载
 istream& operator>> (istream&, matrix4x4&);
 ostream& operator<<(ostream&, matrix4x4&);
-
+ostream& operator<<(ostream&, matrix4x4);
 
 
 #endif // MATRIX4X4_H

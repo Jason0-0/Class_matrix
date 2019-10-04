@@ -12,7 +12,7 @@ int main()
 	cin >> a;
 
 	//试一试强转成参数列表的xxx&格式——可以
-	cout << (matrix4x4&)(a + b) << endl; // 参数列表去除&后又报我一个有多个<<重载的错orz
+	cout << /*(matrix4x4&)*/(a + b) << endl; // 参数列表去除&后又报我一个有多个<<重载的错orz
 	//cout << c << endl;
 	//c = a^3 ;
 	/*cout << a(1, 1) << a(3, 2) << endl;
@@ -21,11 +21,11 @@ int main()
 	//cout << a << endl;
 	cout << endl<<a.Det() << endl;
 	
-	cout << endl << (matrix4x4&)a.Trans() << endl;
+	cout << endl << /*(matrix4x4&)*/a.Trans() << endl;
 	//matrix4x4 d(0);
 	//d = a.Inverse();
 	//cout << d << endl;
-	cout << endl << (matrix4x4&)a.Inverse() << endl;
+	cout << endl << /*(matrix4x4&)*/a.Inverse() << endl;
 	
 
 	return 0;

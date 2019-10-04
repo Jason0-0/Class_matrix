@@ -295,3 +295,17 @@ ostream& operator<<(ostream& os, matrix4x4 &mt)
 	}
 	return os;
 }
+
+//重载面向非对象引用的输出
+ostream& operator<<(ostream& os, matrix4x4 mt)
+{
+	for (int i = 0; i < MATRIX_LEN; i++)
+	{
+		for (int j = 0; j < MATRIX_LEN; j++)
+		{
+			os << mt(i, j) << "	";
+		}
+		os << endl;
+	}
+	return os;
+}
