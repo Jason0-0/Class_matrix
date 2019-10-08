@@ -8,24 +8,56 @@ using namespace std;
 
 int main()
 {
-	matrix4x4 a,b,c;
+	//matrix4x4 a,b,c;
+	//cin >> a;
+
+	////试一试强转成参数列表的xxx&格式——可以
+	//cout << /*(matrix4x4&)*/(a + b) << endl; // 参数列表去除&后又报我一个有多个<<重载的错orz
+	////cout << c << endl;
+	////c = a^3 ;
+	///*cout << a(1, 1) << a(3, 2) << endl;
+	//cout << a(-2, -2) << endl;*/
+	////cout << c << endl;
+	////cout << a << endl;
+	//cout << endl<<a.Det() << endl;
+	//
+	//cout << endl << /*(matrix4x4&)*/a.Trans() << endl;
+	////matrix4x4 d(0);
+	////d = a.Inverse();
+	////cout << d << endl;
+	//cout << endl << /*(matrix4x4&)*/a.Inverse() << endl;
+	cout << "Input your matrix A :" << endl;
+	matrix4x4 a(0);
 	cin >> a;
 
-	//试一试强转成参数列表的xxx&格式——可以
-	cout << /*(matrix4x4&)*/(a + b) << endl; // 参数列表去除&后又报我一个有多个<<重载的错orz
-	//cout << c << endl;
-	//c = a^3 ;
-	/*cout << a(1, 1) << a(3, 2) << endl;
-	cout << a(-2, -2) << endl;*/
-	//cout << c << endl;
-	//cout << a << endl;
-	cout << endl<<a.Det() << endl;
-	
-	cout << endl << /*(matrix4x4&)*/a.Trans() << endl;
-	//matrix4x4 d(0);
-	//d = a.Inverse();
-	//cout << d << endl;
-	cout << endl << /*(matrix4x4&)*/a.Inverse() << endl;
+	cout << "Input your matrix B:" << endl;
+	matrix4x4 b(0);
+	cin >> b;
+
+	cout << "A+B=" << endl << endl<<a + b << endl;
+
+	cout << "A-B=" << endl << endl << a - b << endl;
+
+	cout << "A*B=" << endl << endl << a * b << endl;
+
+	int pow = 1;
+	cout << "Please input pow:";
+	cin >> pow;
+	cout << "A^" << pow << "=" << endl << endl << (a ^ pow) << endl;
+	cout << "B^(-" << pow << ")=" << endl << endl << (b ^ (-pow)) << endl;
+
+	cout << "A(1,2)=" << a(0, 1) << "		"<< "B(4,2)=" << b(3, 1) << endl;
+	cout << "Det(A)=" << a.Det() <<"		Det(B)="<<b.Det()<< endl << "The inverse matrix of B is:" << endl << endl << b.Inverse();
+	matrix4x4 c;
+	c = a.Inverse();
+	cout << "The transpose of the inverse of A is:" << endl << endl << c.Trans() << endl;
+
+	double d[MATRIX_LEN][MATRIX_LEN];
+	matrix4x4 e(d);
+
+	cout << "E=" << endl << endl << e << endl;
+
+
 	
 
 	return 0;

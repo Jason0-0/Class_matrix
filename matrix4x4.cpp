@@ -2,7 +2,7 @@
 //问题：为什么构造和析构函数放.h里会报错，是由于这种.h+.cpp模式必须要把所有定义都放cpp里吗？？
 //问题：inline 的使用时机及场合（在类外定义时）
 
-#include <iostream>	
+#include <iostream>
 #include "matrix4x4.h"
 
 using namespace std;
@@ -17,14 +17,15 @@ inline matrix4x4::matrix4x4()
 	{
 		matrix[i][i] = 1;
 	}
-	rule = MATRIX_LEN;
+	//rule = MATRIX_LEN;
 }
 inline matrix4x4::matrix4x4(int Val)
 {
 	memset(this->matrix, Val, sizeof(double) * MATRIX_LEN * MATRIX_LEN);
 }
-template<typename T>
-inline matrix4x4::matrix4x4(T const mat[][MATRIX_LEN])
+
+
+matrix4x4::matrix4x4( double mat[][MATRIX_LEN])
 {
 	for (int i = 0; i < MATRIX_LEN; i++)
 	{
@@ -127,26 +128,26 @@ matrix4x4 matrix4x4::Inverse()
 	matrix4x4 temp(*this);
 	//temp = *this;
 	matrix4x4 eye;		//外挂的增广矩阵
-	
+
 	for (int i = 0; i < MATRIX_LEN; i++)
 	{
 		int n = i+1;
 		while (temp(i,i)==0&&n!=MATRIX_LEN)
 		{
-			
+
 			ExchangeRow(temp(i), temp(n));
 			ExchangeRow(eye(i), eye(n));
 			++n;
 		}
 		if (temp(i,i)==0)
 		{
-			rule = 0;
+			//rule = 0;
 			return matrix4x4(0);
 		}
 
 		ValMuti(eye(i), 1/temp(i, i));
 		ValMuti(temp(i), 1/temp(i, i));
-		
+
 		for (int j = 0; j < MATRIX_LEN; j++)
 		{
 			if (j != i)
@@ -156,7 +157,7 @@ matrix4x4 matrix4x4::Inverse()
 			}
 		}
 	}
-	
+
 	return eye;
 }
 
@@ -188,13 +189,13 @@ double matrix4x4::Det()
 		//让下面都变成0
 		if (temp(col,col)==0)
 		{
-			this->rule = 0;
+			//this->rule = 0;
 			return 0.0;
 		}
 		for (int k =col+1 ; k < MATRIX_LEN; k++)
 		{
 			MutiMinus(temp(k), temp(col), temp(k, col) / temp(col, col));
-		}		
+		}
 	}
 	return Exchange*temp(0,0)*temp(1,1)*temp(2,2)*temp(3,3);
 }
@@ -245,7 +246,7 @@ matrix4x4 matrix4x4:: operator*(const matrix4x4& muti)
 matrix4x4 matrix4x4::operator=(const matrix4x4& right)
 {
 	//matrix4x4 temp;  为什么不能通过用一个中间变量承载赋值然后返回他？因为调用的左值的值真的没有被改
-	this->rule = right.rule;
+	//this->rule = right.rule;
 	//return (*this) * right;	这句话也是相同的原因，左值里面的东西没有被修改（赋值）
 	memcpy(this->matrix, right.matrix, sizeof(double) * MATRIX_LEN * MATRIX_LEN);
 	return *this;
@@ -255,10 +256,16 @@ matrix4x4 matrix4x4::operator^(const int pow)
 {
 	matrix4x4 res;
 
-	for (int i = 0; i < pow; i++)
-	{
-		res = res * (*this);
-	}
+    for (int i = 0; i < abs(pow); i++)
+    {
+        res = res * (*this);
+    }
+
+    if(pow<0)
+    {
+        res = res.Inverse();
+    }
+
 	return res;
 }
 
@@ -283,13 +290,13 @@ istream& operator>>(istream& is, matrix4x4& mt)
 	return is;
 }
 
-ostream& operator<<(ostream& os, matrix4x4 &mt)
+ostream& operator<<(ostream& os, const matrix4x4 &mt)
 {
 	for (int i = 0; i < MATRIX_LEN; i++)
 	{
 		for (int j = 0; j < MATRIX_LEN; j++)
 		{
-			os << mt(i, j) << "	";
+			os << mt.matrix[i][j] << "	";
 		}
 		os << endl;
 	}
@@ -297,15 +304,15 @@ ostream& operator<<(ostream& os, matrix4x4 &mt)
 }
 
 //重载面向非对象引用的输出
-ostream& operator<<(ostream& os, matrix4x4 mt)
-{
-	for (int i = 0; i < MATRIX_LEN; i++)
-	{
-		for (int j = 0; j < MATRIX_LEN; j++)
-		{
-			os << mt(i, j) << "	";
-		}
-		os << endl;
-	}
-	return os;
-}
+//ostream& operator<<(ostream& os, matrix4x4 mt)
+//{
+//	for (int i = 0; i < MATRIX_LEN; i++)
+//	{
+//		for (int j = 0; j < MATRIX_LEN; j++)
+//		{
+//			os << mt(i, j) << "	";
+//		}
+//		os << endl;
+//	}
+//	return os;
+//}

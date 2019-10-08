@@ -8,7 +8,7 @@
 TODO： 赋值或计算后还是求逆时才计算秩？
 		二维数组的=重载
 		重载返回非常变量引用的<<重载
-
+		^重载实现负次幂
 */
 
 using namespace std;
@@ -18,8 +18,8 @@ class matrix4x4
 public:
 	matrix4x4();
 	matrix4x4(int Val); //用于乘法
-	template<typename T>
-	matrix4x4(T const mat[][MATRIX_LEN]);
+	//template<typename T>
+	matrix4x4( double mat[][MATRIX_LEN]);
 
 	matrix4x4 operator+(const matrix4x4& add);
 	matrix4x4 operator-(const matrix4x4& sub);
@@ -29,8 +29,8 @@ public:
 	double& operator()(const int  row, const int col);	//已测试
 	
 	friend istream& operator>> (istream& is, matrix4x4& mt);	//已测试
-	friend ostream& operator<<(ostream& os, matrix4x4& mt);		//已测试
-	friend ostream& operator<<(ostream&, matrix4x4);		
+	friend ostream& operator<<(ostream& os,const matrix4x4& mt);		//已测试
+	//friend ostream& operator<<(ostream&, matrix4x4);		
 
 	matrix4x4 Trans();		//已测试
 	matrix4x4 Inverse();	//已测试
@@ -42,7 +42,7 @@ private:
 
 	double ERRORCODE = 0.0;
 	double matrix[MATRIX_LEN][MATRIX_LEN];
-	double rule;	//矩阵的秩
+	//double rule;	//矩阵的秩
 
 	//用于进行初等变换的函数
 	double* operator()(const int row);			//重载（）以访问行
@@ -68,9 +68,9 @@ private:
 };
 
 //输入输出重载
-istream& operator>> (istream&, matrix4x4&);
-ostream& operator<<(ostream&, matrix4x4&);
-ostream& operator<<(ostream&, matrix4x4);
+//istream& operator>> (istream&, matrix4x4&);
+//ostream& operator<<(ostream&, matrix4x4&);
+//ostream& operator<<(ostream&, matrix4x4);
 
 
 #endif // MATRIX4X4_H
